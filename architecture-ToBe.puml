@@ -1,0 +1,63 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "Mobile/Web/Smart TV")
+
+System_Ext(recommendation_ext, "Recomendation System", "External recommendation engine") {
+    Container(rabbitmq, "RabbitMQ")
+}
+
+System_Boundary(c1, "Cinema Abyss") {
+    Container(Mobile_BFF, "Mobile BFF")
+    Container(Web_BFF, "Web BFF")
+    Container(SmartTV_BFF, "Smart TV BFF")
+    Container(api_gateway, "API Gateway")
+    Container(user_service, "User Service")
+    Container(movie_service, "Movie Service")
+    Container(payment_service, "Payment Service")
+    Container(subscription_service, "Subscription Service")
+    Container(recommendation_service, "Recommendation Service")
+    Container(event_service, "Event Service")
+    Container(queue, "Kafka")
+    ContainerDb(database, "PostgreSQL")
+}
+
+Rel(user, api_gateway, "HTTPS (REST)")
+Rel(api_gateway, Mobile_BFF, "HTTP")
+Rel(api_gateway, Web_BFF, "HTTP")
+Rel(api_gateway, SmartTV_BFF, "HTTP")
+
+Rel(Mobile_BFF, user_service, "HTTP")
+Rel(Mobile_BFF, movie_service, "HTTP")
+Rel(Mobile_BFF, payment_service, "HTTP")
+Rel(Mobile_BFF, subscription_service, "HTTP")
+Rel(Mobile_BFF, recommendation_service, "HTTP")
+
+Rel(Web_BFF, user_service, "HTTP")
+Rel(Web_BFF, movie_service, "HTTP")
+Rel(Web_BFF, payment_service, "HTTP")
+Rel(Web_BFF, subscription_service, "HTTP")
+Rel(Web_BFF, recommendation_service, "HTTP")
+
+Rel(SmartTV_BFF, user_service, "HTTP")
+Rel(SmartTV_BFF, movie_service, "HTTP")
+Rel(SmartTV_BFF, payment_service, "HTTP")
+Rel(SmartTV_BFF, subscription_service, "HTTP")
+Rel(SmartTV_BFF, recommendation_service, "HTTP")
+
+Rel(user_service, database, "Postgres protocol/TCP")
+Rel(movie_service, database, "Postgres protocol/TCP")
+Rel(payment_service, database, "Postgres protocol/TCP")
+Rel(subscription_service, database, "Postgres protocol/TCP")
+Rel(recommendation_service, database, "Postgres protocol/TCP")
+
+Rel(rabbitmq, recommendation_service, "HTTP")
+
+Rel(user_service, event_service, "HTTP")
+Rel(movie_service, event_service, "HTTP")
+Rel(payment_service, event_service, "HTTP")
+Rel(subscription_service, event_service, "HTTP")
+
+Rel(event_service, queue, "AMQP")
+
+@enduml
