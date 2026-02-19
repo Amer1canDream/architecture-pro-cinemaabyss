@@ -5,7 +5,7 @@ global:
 
 # Image pull secrets
 imagePullSecrets:
-  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6
+  dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7ImF1dGgiOiJZWEpqYURwbmFIQmZOVWhpWW5ObVMwNDROVFEwVlV0MVFWRllSbFZoUTBwNGNUaDBUakY1TVhOaU9VdHgifX19
 # Database configuration
 database:
   host: postgres
@@ -33,8 +33,8 @@ database:
 monolith:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/monolith
-    tag: latest
+    repository: ghcr.io/amer1candream/architecture-pro-cinemaabyss/monolith
+    tag: sha-f3a33da
     pullPolicy: Always
   replicas: 1
   resources:
@@ -53,8 +53,8 @@ monolith:
 proxyService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/proxy-service
-    tag: latest
+    repository: ghcr.io/amer1candream/architecture-pro-cinemaabyss/proxy-service
+    tag: sha-f3a33da
     pullPolicy: Always
   replicas: 1
   resources:
@@ -73,8 +73,8 @@ proxyService:
 moviesService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/movies-service
-    tag: latest
+    repository: ghcr.io/amer1candream/architecture-pro-cinemaabyss/movies-service
+    tag: sha-f3a33da
     pullPolicy: Always
   replicas: 1
   resources:
@@ -93,8 +93,8 @@ moviesService:
 eventsService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/events-service
-    tag: latest
+    repository: ghcr.io/amer1candream/architecture-pro-cinemaabyss/events-service
+    tag: sha-f3a33da
     pullPolicy: Always
   replicas: 1
   resources:
@@ -108,6 +108,11 @@ eventsService:
     port: 8082
     targetPort: 8082
     type: ClusterIP
+  env:
+    PORT: "8082"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+    KAFKA_TOPIC: "cinemaabyss-events"
+    KAFKA_GROUP_ID: "events-service-group"
 
 # Kafka configuration
 kafka:
