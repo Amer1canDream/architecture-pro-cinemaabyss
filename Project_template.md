@@ -418,7 +418,7 @@ You can see 21 for the upstream_rq_pending_overflow value which means 21 calls s
 
 Приложите скриншот работы circuit breaker'а
 
-[Helm deployed](./circut_breaker.png)
+[Circut breaker](./circut_breaker.png)
 
 Удаляем все
 ```bash
